@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dingtalk-configmap
+  namespace: skywalking
+data:
+  production.yml: |-
+    # dingtalk 群机器人 access_token
+    token: "95d0cc0d617263e87c1c"
+    secret: "SEC722fc81"
+    address: "0.0.0.0:8080"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skywalking-webhook-dingtalk
+  namespace: skywalking
+spec:
+  selector:
+    matchLabels:
+      app: dingtalk
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dingtalk
+    spec:
+      containers:
+      - name: dingtalk
+        image: test/skywalking-webhook-dingtalk:v0.1
+        imagePullPolicy: IfNotPresent
+        #args:
+          #- '--config.file=/configs/production.yml'
+          #- '--address=0.0.0.0:8080'
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/skywalking/webhook/config"
+          name: dingtalk-volume
+      volumes:
+      - name: dingtalk-volume
+        configMap:
+          name: dingtalk-configmap
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: skywalking-webhook-service
+  namespace: skywalking
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: dingtalk
+  sessionAffinity: None

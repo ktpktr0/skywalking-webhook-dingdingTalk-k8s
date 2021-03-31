@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dingtalk-configmap
+  namespace: skywalking
+data:
+  application.properties: |-
+    server.port=8080
+    dingtalk.webhook=https://oapi.dingtalk.com/robot/send?access_token=ee6f687eed961795acef
+    dingtalk.secret=SE4f7908123f7d71c5b9ffe6
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: skywalking-webhook
+  name: skywalking-webhook-dingdingtalk
+  namespace: skywalking
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skywalking-webhook
+  template:
+    metadata:
+      labels:
+        app: skywalking-webhook
+    spec:
+      containers:
+      - name: skywalking-webhook
+        image: java/skywalking-webhook-dingtalk:v0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: tcp
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/skywalking/config"
+          name: dingtalk-volume
+      volumes:
+      - name: dingtalk-volume
+        configMap:
+          name: dingtalk-configmap
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: skywalking-webhook
+  name: skywalking-webhook-service
+  namespace: skywalking
+spec:
+  ports:
+  - name: tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: skywalking-webhook
+  sessionAffinity: None
+  type: ClusterIP
