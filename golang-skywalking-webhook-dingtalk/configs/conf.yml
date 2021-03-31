@@ -1,0 +1,5 @@
+# dingtalk 群机器人 access_token
+
+token: "1b30a792c1ee6f687eed961795d0cc0d617263e87c1c25da934615dbc0f5acef"
+secret: "SEC722fc81caa531abc2db215d964f7908123f7d71c5b9ffe6200e2d6a002012a12"
+address: "0.0.0.0:8080"
