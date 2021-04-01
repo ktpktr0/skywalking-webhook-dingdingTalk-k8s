@@ -14,4 +14,5 @@ sh build/build.sh
 2、JAVA版本的webhook
 
 mvn clean package
+
 java -jar skywalking-webhook-dingding-talk.jar --spring.config.location=/tmp/application.properties
