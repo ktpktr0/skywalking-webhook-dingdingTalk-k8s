@@ -5,7 +5,7 @@ MAINTAINER web-xiaxia<xiongchuang@vip.qq.com>
 #设置环境变量
 ENV SKYWALKING_WORK_SPACE=/skywalking \
     APP_NAME=golang-skywalking-webhook \
-    SKYWALKING_WEBHOOK_CONFIG_DIR=/skywalking/webhook/config
+    SKYWALKING_WEBHOOK_CONFIG_DIR=/skywalking/webhook/configs
 
 #执行需要的内容
 RUN mkdir -p ${SKYWALKING_WORK_SPACE}/webhook && \
