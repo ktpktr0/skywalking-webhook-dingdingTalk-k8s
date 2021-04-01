@@ -37,7 +37,7 @@ spec:
         - containerPort: 8080
           protocol: TCP
         volumeMounts:
-        - mountPath: "/skywalking/webhook/config"
+        - mountPath: "/skywalking/webhook/configs"
           name: dingtalk-volume
       volumes:
       - name: dingtalk-volume
