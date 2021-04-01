@@ -4,7 +4,7 @@ metadata:
   name: dingtalk-configmap
   namespace: skywalking
 data:
-  production.yml: |-
+  conf.yml: |-
     # dingtalk 群机器人 access_token
     token: "95d0cc0d617263e87c1c"
     secret: "SEC722fc81"
